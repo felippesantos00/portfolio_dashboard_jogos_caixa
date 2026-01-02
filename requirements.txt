@@ -1,5 +1,5 @@
 streamlit==1.52.0
 pandas
 requests==2.31.0
-urllib3==1.26.18
+urllib3==2.6.0
 openpyxl
