@@ -17,10 +17,11 @@ def fetch_megasena_results():
     response.raise_for_status()
     return response.json()
 
-
 # =====================================================
 # HISTÓRICO XLSX
 # =====================================================
+
+
 @st.cache_data(ttl=3600)
 def fetch_megasena_historico():
     url = (
@@ -29,9 +30,7 @@ def fetch_megasena_historico():
     )
     response = requests.get(url, timeout=30)
     response.raise_for_status()
-
     df = pd.read_excel(BytesIO(response.content), engine="openpyxl")
-
     df.columns = df.columns.str.strip()
     return df
 
@@ -41,7 +40,6 @@ def fetch_megasena_historico():
 # =====================================================
 if "jogos" not in st.session_state:
     st.session_state.jogos = []
-
 
 # =====================================================
 # RESULTADO OFICIAL
@@ -118,14 +116,7 @@ else:
     for i, jogo in enumerate(st.session_state.jogos, start=1):
         jogo_set = jogo_para_set(jogo)
         acertos = len(jogo_set & dezenas_sorteadas)
-
-        if acertos == 6:
-            st.markdown(
-                f"**{i}. 🟢 {jogo} — {acertos} acertos 🎉**"
-            )
-        else:
-            st.write(f"{i}. {jogo} — {acertos} acertos")
-
+        st.write(f"{i}. {jogo} — {acertos} acertos")
 
 # =====================================================
 # HISTÓRICO (ÚLTIMOS 20)
@@ -141,15 +132,18 @@ df_view = df_hist[
     ["Concurso", "Data do Sorteio"] + cols_dezenas
 ].tail(20).iloc[::-1]
 
+st.dataframe(df_view, width="stretch")
+st.caption("Fonte: [Caixa Econômica Federal](https://loterias.caixa.gov.br/)")
+# entrar em contato comigo via linkedin https://www.linkedin.com/in/felippe-santos-54058111a/
+# endereço do icone https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjk4Mi1kMS0xMC5wbmc.png
+st.markdown("---")
+st.markdown(
+    """
+    # 🙋 Sobre o Autor
+    ## 📫 Contato
 
-def highlight_row(row):
-    bolas = set(int(row[c]) for c in cols_dezenas)
-    if bolas == dezenas_sorteadas:
-        return ["background-color: #2ecc71"] * len(row)
-    return [""] * len(row)
-
-
-st.dataframe(
-    df_view.style.apply(highlight_row, axis=1),
-    width='stretch'
+    - Email: felipperodrigues00@gmail.com
+    - LinkedIn: https: // www.linkedin.com/in / felippe-santos-54058111a /
+    - Medium: https: // medium.com/@felipperodrigues00
+    """
 )
