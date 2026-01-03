@@ -143,7 +143,7 @@ st.markdown(
     ## 📫 Contato
 
     - Email: felipperodrigues00@gmail.com
-    - LinkedIn: https: // www.linkedin.com/in / felippe-santos-54058111a /
-    - Medium: https: // medium.com/@felipperodrigues00
+    - LinkedIn: https://www.linkedin.com/in/felippe-santos-54058111a/
+    - Medium: https://medium.com/@felipperodrigues00
     """
 )
